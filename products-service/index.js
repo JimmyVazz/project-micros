@@ -1,4 +1,3 @@
-require('dotenv').config();
 const express = require('express');
 const axios = require('axios');
 const app = express();
@@ -6,10 +5,6 @@ app.use(express.json());
 
 // Leer URL desde variable de entorno
 const USERS_API_URL = 'https://friendly-charm-production.up.railway.app';
-
-if (!USERS_API_URL) {
-  console.warn('⚠️ USERS_API_URL no está definido en las variables de entorno');
-}
 
 const products = [
   { id: 1, name: 'Laptop', userId: 1 },
@@ -19,7 +14,6 @@ const products = [
 app.get('/products', async (req, res) => {
   try {
     const usersRes = await axios.get(`${USERS_API_URL}/users`);
-    console.log("URL: ", usersRes.config.url);
     const userMap = Object.fromEntries(usersRes.data.map(user => [user.id, user.name]));
 
     const enriched = products.map(p => ({
