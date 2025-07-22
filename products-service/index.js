@@ -19,6 +19,7 @@ const products = [
 app.get('/products', async (req, res) => {
   try {
     const usersRes = await axios.get(`${USERS_API_URL}/users`);
+    console.log("URL: ", usersRes.config.url);
     const userMap = Object.fromEntries(usersRes.data.map(user => [user.id, user.name]));
 
     const enriched = products.map(p => ({
