@@ -3,6 +3,13 @@ const axios = require('axios');
 const app = express();
 app.use(express.json());
 
+// Leer URL desde variable de entorno
+const USERS_API_URL = process.env.USERS_API_URL;
+
+if (!USERS_API_URL) {
+  console.warn('⚠️ USERS_API_URL no está definido en las variables de entorno');
+}
+
 const products = [
   { id: 1, name: 'Laptop', userId: 1 },
   { id: 2, name: 'Phone', userId: 2 }
@@ -10,20 +17,22 @@ const products = [
 
 app.get('/products', async (req, res) => {
   try {
-    const usersRes = await axios.get('http://users-service:3001/users');
+    const usersRes = await axios.get(`${USERS_API_URL}/users`);
     const userMap = Object.fromEntries(usersRes.data.map(user => [user.id, user.name]));
 
-    const enhanced = products.map(p => ({
+    const enriched = products.map(p => ({
       ...p,
       owner: userMap[p.userId] || 'Unknown'
     }));
 
-    res.json(enhanced);
+    res.json(enriched);
   } catch (err) {
+    console.error('Error calling users service:', err.message);
     res.status(500).send('Error connecting to users service');
   }
 });
 
-app.listen(3002, () => {
-  console.log('Products service running on port 3002');
+const PORT = process.env.PORT || 3002;
+app.listen(PORT, () => {
+  console.log(`Products service running on port ${PORT}`);
 });
