@@ -5,7 +5,7 @@ const app = express();
 app.use(express.json());
 
 // Leer URL desde variable de entorno
-const USERS_API_URL = 'https://project-micros-production.up.railway.app';
+const USERS_API_URL = 'https://friendly-charm-production.up.railway.app';
 
 if (!USERS_API_URL) {
   console.warn('⚠️ USERS_API_URL no está definido en las variables de entorno');
