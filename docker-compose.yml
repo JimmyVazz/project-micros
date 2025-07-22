@@ -1,0 +1,14 @@
+version: '3.9'  # Versión de la sintaxis de Docker Compose
+
+services:
+  users-service:      # Nombre del primer servicio
+    build: ./users-service   # Dockerfile está dentro de esta carpeta
+    ports:
+      - "3001:3001"    # Mapea el puerto del host al contenedor
+
+  products-service:   # Segundo microservicio
+    build: ./products-service
+    ports:
+      - "3002:3002"
+    depends_on:       # Este servicio depende del otro (espera a que inicie)
+      - users-service
