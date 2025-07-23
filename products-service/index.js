@@ -3,7 +3,6 @@ const axios = require('axios');
 const app = express();
 app.use(express.json());
 
-// Leer URL desde variable de entorno
 const USERS_API_URL = 'https://friendly-charm-production.up.railway.app';
 
 const products = [
